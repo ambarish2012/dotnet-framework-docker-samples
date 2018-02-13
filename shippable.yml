@@ -1,0 +1,29 @@
+resources:
+
+  - name: dotnetapp462repo
+    type: gitRepo
+    # replace dr_github with your GitHub integration name
+    integration: github
+    pointer:
+      # replace with source code location (e.g. GitHub) where you cloned this
+      # sample project.
+      sourceName: ambarish2012/dotnet-framework-docker-samples
+      branch: master
+
+jobs:
+
+  - name: build_dotnetapp462
+    type: runSh
+    runtime:
+      nodePool: custom__x86_64__WindowsServer_2016
+    steps:
+      - IN: dotnetapp462repo
+      - TASK:
+          name: docker_build_dotnetapp462
+          runtime:
+            container: false
+          script:
+            - pushd $env:DOTNETAPP462REPO_STATE/dotnetapp-4.6.2
+            - docker build -t my-dotnet462-app .
+            - docker run my-dotnet462-app
+            - popd
