@@ -14,8 +14,6 @@ jobs:
 
   - name: build_dotnetapp462
     type: runSh
-    runtime:
-      nodePool: custom__x86_64__WindowsServer_2016
     steps:
       - IN: dotnetapp462repo
       - TASK:
