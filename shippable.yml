@@ -39,7 +39,7 @@ jobs:
           runtime:
             options:
               imageName: microsoft/dotnet-framework-build
-              imageTag: 4.6.2
+              imageTag: 4.7.1
           script:
             - pushd $env:DOTNETAPP462REPO_STATE/dotnetapp-4.6.2
             - nuget.exe restore
