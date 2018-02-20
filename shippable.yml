@@ -14,6 +14,8 @@ jobs:
 
   - name: build_dotnetapp462
     type: runSh
+    runtime:
+      nodepool: custom__x86_64__WindowsServer_2016
     steps:
       - IN: dotnetapp462repo
       - TASK:
@@ -24,4 +26,22 @@ jobs:
             - pushd $env:DOTNETAPP462REPO_STATE/dotnetapp-4.6.2
             - docker build -t my-dotnet462-app .
             - docker run my-dotnet462-app
+            - popd
+
+  - name: build_dotnetapp462_container
+    type: runSh
+    runtime:
+      nodepool: custom__x86_64__WindowsServer_2016
+    steps:
+      - IN: dotnetapp462repo
+      - TASK:
+          name: container_build_dotnetapp462
+          runtime:
+            options:
+              imageName: microsoft/dotnet-framework-build
+              imageTag: 4.7.1
+          script:
+            - pushd $env:DOTNETAPP462REPO_STATE/dotnetapp-4.6.2
+            - nuget.exe restore
+            - msbuild.exe /t:Build /p:Configuration=Release /p:OutputPath=out
             - popd
